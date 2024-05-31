@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # 定義 Airflow 初始化服務
+  airflow-init:
+    image: apache/airflow:2.9.1
+    container_name: airflow-init
+    entrypoint: ["sh", "-c", "airflow db init"]
+    depends_on:
+      - postgres
+
+  # 定義 Airflow 服務
+  airflow:
+    build: ./.
+    image: apache/airflow:2.9.1
+    container_name: airflow
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./logs:/usr/local/airflow/logs
+      - ./utils:/usr/local/airflow/utils
+      - ./tasks:/usr/local/airflow/tasks
+    ports:
+      - "8080:8080"
+    depends_on:
+      - airflow-init
+    command: >
+      sh -c "airflow scheduler & 
+             airflow webserver"
+
+  # 定義 Postgres 服務
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  # 定義持久化存儲卷
+  postgres_data:
+  logs:
+  utils:
+  tasks:

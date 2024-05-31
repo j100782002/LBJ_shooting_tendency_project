@@ -1,0 +1,6 @@
+pandas
+numpy
+apache-airflow
+requests
+google-cloud-bigquery
+# 其他需要的 Python 庫
