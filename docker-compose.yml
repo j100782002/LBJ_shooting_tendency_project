@@ -44,7 +44,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  # 定義持久化存儲卷
   postgres_data:
   logs:
   utils:

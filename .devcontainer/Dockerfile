@@ -13,9 +13,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 安裝 Apache Airflow
 RUN pip install apache-airflow
 
-# 安裝 Google Cloud BigQuery 客戶端
-RUN pip install google-cloud-bigquery
-
 # 複製應用程式代碼到工作目錄
 COPY . .
 
