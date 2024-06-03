@@ -1,28 +1,26 @@
 import requests
-from google.cloud import storage
 import json
 
 url = "https://stats.nba.com/stats/playerdashptshots?DateFrom=&DateTo=&GameSegment=&ISTRound=&LastNGames=0&LeagueID=00&Location=&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PerMode=PerGame&Period=0&PlayerID=2544&Season=2023-24&SeasonSegment=&SeasonType=Regular%20Season&TeamID=0&VsConference=&VsDivision="
-
 custom_headers = {
-'Host': 'stats.nba.com',
-'Connection': 'keep-alive',
-'Accept': 'application/json, text/plain, */*',
-'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
-'Origin': 'https://www.nba.com',
-'Referer': 'https://www.nba.com/',
-'Accept-Encoding': 'gzip, deflate, br',
-'Accept-Language': 'en-US,en;q=0.5',
-'Sec-Fetch-Dest': 'empty',
-'Sec-Fetch-Mode': 'cors',
-'Sec-Fetch-Site': 'same-site',
-'Sec-GPC': '1'
-}
+    'Host': 'stats.nba.com',
+    'Connection': 'keep-alive',
+    'Accept': 'application/json, text/plain, */*',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+    'Origin': 'https://www.nba.com',
+    'Referer': 'https://www.nba.com/',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Sec-Fetch-Dest': 'empty',
+    'Sec-Fetch-Mode': 'cors',
+    'Sec-Fetch-Site': 'same-site',
+    'Sec-GPC': '1'
+    }
 
-response = requests.get(url, headers = custom_headers)
-data = response.json()
-
-# 保存數據到本地文件
-with open("/tmp/lebron_data.json", "w") as f:
-    json.dump(data, f)
-
+def get_player_data(player=str, url=str, headers=dict):
+    response = requests.get(url, headers=headers)
+    data = response.json()
+    # 保存數據到本地文件
+    player_name = player 
+    with open(f"./tmp/{player_name}_data.json", "w") as f:
+        json.dump(data, f)
