@@ -17,10 +17,11 @@ custom_headers = {
     'Sec-GPC': '1'
     }
 
-def get_player_data(player=str, url=str, headers=dict):
+def get_player_data(player=str, url=str, headers=dict) -> json:
     response = requests.get(url, headers=headers)
     data = response.json()
     # 保存數據到本地文件
     player_name = player 
     with open(f"./tmp/{player_name}_data.json", "w") as f:
         json.dump(data, f)
+    return data
